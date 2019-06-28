@@ -1,7 +1,7 @@
 FROM ubuntu
 
 ARG COMPONENTS=Unity,WebGL
-ARG DOWNLOAD_URL=https://beta.unity3d.com/download/6e9a27477296/UnitySetup-2018.3.0f2
+ARG DOWNLOAD_URL=https://beta.unity3d.com/download/dad990bf2728/UnitySetup-2018.2.7f1
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
