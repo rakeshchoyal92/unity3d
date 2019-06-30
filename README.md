@@ -1,7 +1,10 @@
 This repository contains docker files to build unity3d.
 
 ## Build Script
-` docker image build -t IMAGE_NAME:TAG . `
+```
+export IMAGE_TAG='rakeshchoyal92/unity3d:2018'
+docker image build -t ${IMAGE_TAG} . 
+ ```
 
 ## Run script
 - Change -v to point to the directory containing your unity project

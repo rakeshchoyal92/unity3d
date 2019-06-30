@@ -2,14 +2,12 @@ FROM ubuntu
 
 ARG COMPONENTS=Unity,WebGL
 ARG DOWNLOAD_URL=https://beta.unity3d.com/download/dad990bf2728/UnitySetup-2018.2.7f1
-ARG LICENSE_FILE 
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 
 # Add license file
 RUN mkdir -p /root/.cache/unity3d && mkdir -p /root/.local/share/unity3d/Unity
-RUN if [ -n "${LICENSE_FILE}" -a "${LICENSE_FILE}" != "" ] ; then COPY 2018/Unity_lic.ulf /root/.local/share/unity3d/Unity/Unity_lic.ulf ; else echo "Warning: License file is not provided." ; fi
 
 RUN echo "Australia/Melbourne" > /etc/timezone && \
     apt-get -qq update && apt-get -qq install -y \
