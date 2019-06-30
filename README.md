@@ -4,16 +4,12 @@ This repository contains docker files to build unity3d.
 ` docker image build -t IMAGE_NAME:TAG . `
 
 ## Run script
-Change -v to point to the directory containing your unity project .
+- Change -v to point to the directory containing your unity project
 
 ```
-docker run -it --rm \
---privileged \
--u root \
--e "TEST_PLATFORM=linux" \
--e "WORKDIR=/root/project" \
--p 8080:5900 \
--v "/Users/rakesh/Desktop/work/planimation_forked:/root/project" \
-IMAGE_NAME:TAG \
-bash 
+export UNITY_IMAGE=rakeshchoyal92/unity3d:latest
+docker run -it -v "/home/ubuntu/frontend:/root/project/frontend" unity:0.1 \
+'/opt/Unity/Editor/Unity' -quit -batchmode -nographics \
+-projectPath /root/project/frontend \
+-executeMethod Buildscript.Build -logFile
 ```

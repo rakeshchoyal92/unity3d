@@ -2,14 +2,19 @@ FROM ubuntu
 
 ARG COMPONENTS=Unity,WebGL
 ARG DOWNLOAD_URL=https://beta.unity3d.com/download/dad990bf2728/UnitySetup-2018.2.7f1
+ARG LICENSE_FILE 
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 
+# Add license file
+RUN mkdir -p /root/.cache/unity3d && mkdir -p /root/.local/share/unity3d/Unity
+RUN if [ -n "${LICENSE_FILE}" -a "${LICENSE_FILE}" != "" ] ; then COPY 2018/Unity_lic.ulf /root/.local/share/unity3d/Unity/Unity_lic.ulf ; else echo "Warning: License file is not provided." ; fi
+
 RUN echo "Australia/Melbourne" > /etc/timezone && \
     apt-get -qq update && apt-get -qq install -y \
-    wget git x11vnc xvfb libgtk-3-0 libgtk-3-dev \ 
-    imagemagick curl gconf-service lib32gcc1 \ 
+    wget git x11vnc xvfb libgtk-3-0 libgtk-3-dev \
+    imagemagick curl gconf-service lib32gcc1 \
     lib32stdc++6 libasound2 libc6 libc6-i386 \
     libcairo2 libcap2 libcups2 libdbus-1-3 \
     libexpat1 libfontconfig1 libfreetype6 \
@@ -22,10 +27,6 @@ RUN echo "Australia/Melbourne" > /etc/timezone && \
     lsb-release libpq5 xvfb libsoup2.4-1 libarchive13 \
     libpng-dev python-pip python3-venv python3-pip \
     && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir -p /root/.cache/unity3d && mkdir -p /root/.local/share/unity3d/Unity && mkdir -p /root/.local/share/unity3d/Certificates
-COPY 2018/Unity_lic.ulf /root/.local/share/unity3d/Unity/Unity_lic.ulf
-COPY CACerts.pem /root/.local/share/unity3d/Certificates/CACerts.pem
 
 RUN wget -nv ${DOWNLOAD_URL} -O UnitySetup && \
     # make executable
@@ -43,5 +44,3 @@ RUN wget -nv ${DOWNLOAD_URL} -O UnitySetup && \
     rm UnitySetup && \
     rm -rf /tmp/unity && \
     rm -rf /root/.local/share/Trash/*
-
-COPY CACerts.pem /root/.local/share/unity3d/Certificates/
